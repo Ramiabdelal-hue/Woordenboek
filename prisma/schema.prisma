@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Word {
+  id            String   @id @default(cuid())
+  dutch         String   @unique
+  arabicMeaning String
+  otherMeaning  String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  sentences     Sentence[]
+}
+
+model Sentence {
+  id        String   @id @default(cuid())
+  dutch     String
+  arabic    String
+  wordId    String
+  word      Word     @relation(fields: [wordId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Quiz {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  createdAt   DateTime @default(now())
+  questions   QuizQuestion[]
+}
+
+model QuizQuestion {
+  id        String   @id @default(cuid())
+  quizId    String
+  quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  question  String
+  answer    String
+  options   String[]
+  createdAt DateTime @default(now())
+}
