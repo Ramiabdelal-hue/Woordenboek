@@ -5,6 +5,8 @@ import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import SpeakButton from '@/components/SpeakButton'
 
+export const dynamic = 'force-dynamic'
+
 export default function TakeQuizPage() {
   const params = useParams()
   const [quiz, setQuiz] = useState<any>(null)

@@ -2,6 +2,8 @@ import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 import SpeakButton from '@/components/SpeakButton'
 
+export const dynamic = 'force-dynamic'
+
 export default async function SentencesPage() {
   const sentences = await prisma.sentence.findMany({
     include: { word: true },
