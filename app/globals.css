@@ -299,6 +299,32 @@ body {
   background: #138496;
 }
 
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.btn-edit {
+  background: #f0f0f0;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.btn-edit:hover {
+  background: #e0e0e0;
+}
+
 /* ===== BUTTONS ===== */
 .btn {
   padding: 12px 20px;

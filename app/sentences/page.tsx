@@ -33,7 +33,10 @@ export default async function SentencesPage() {
               <div key={sentence.id} className="word-card">
                 <div className="word-header">
                   <h3 className="word-dutch">{sentence.dutch}</h3>
-                  <SpeakButton text={sentence.dutch} lang="nl-NL" />
+                  <div className="card-actions">
+                    <Link href={`/sentences/edit/${sentence.id}`} className="btn-edit">✏️</Link>
+                    <SpeakButton text={sentence.dutch} lang="nl-NL" />
+                  </div>
                 </div>
                 <div className="word-content">
                   <p className="word-arabic">

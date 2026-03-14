@@ -82,7 +82,10 @@ export default function WordsPage() {
                   <div key={word.id} className="word-card">
                     <div className="word-header">
                       <h3 className="word-dutch">{word.dutch}</h3>
-                      <SpeakButton text={word.dutch} lang="nl-NL" />
+                      <div className="card-actions">
+                        <Link href={`/words/edit/${word.id}`} className="btn-edit">✏️</Link>
+                        <SpeakButton text={word.dutch} lang="nl-NL" />
+                      </div>
                     </div>
                     <div className="word-content">
                       <p className="word-arabic">
