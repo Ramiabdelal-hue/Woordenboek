@@ -15,8 +15,8 @@ export default function SpeakButton({ text, lang }: SpeakButtonProps) {
   }
 
   return (
-    <button onClick={speak} className="btn btn-speak">
-      🔊 استمع للنطق
+    <button onClick={speak} className="btn btn-speak" aria-label="استمع للنطق">
+      🎧
     </button>
   )
 }
