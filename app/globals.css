@@ -9,6 +9,7 @@ body {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   min-height: 100vh;
   padding: 20px;
+  overflow-x: hidden;
 }
 
 /* Home Page Styles */
@@ -208,7 +209,9 @@ body {
 .page-container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 20px 12px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .page-header {
@@ -365,6 +368,9 @@ body {
   padding: 20px;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .search-section {
@@ -459,6 +465,8 @@ body {
   border: 1.5px solid #e8e8e8;
   transition: all 0.2s;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .word-card:hover {
