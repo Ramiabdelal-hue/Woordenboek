@@ -4,96 +4,108 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import SpeakButton from '@/components/SpeakButton'
-
-export const dynamic = 'force-dynamic'
+import NavBar from '@/components/NavBar'
 
 export default function TakeQuizPage() {
   const params = useParams()
   const [quiz, setQuiz] = useState<any>(null)
-  const [answers, setAnswers] = useState<{[key: string]: string}>({})
+  const [answers, setAnswers] = useState<{ [key: string]: string }>({})
   const [submitted, setSubmitted] = useState(false)
   const [score, setScore] = useState(0)
 
   useEffect(() => {
-    fetch(`/api/quiz/${params.id}`)
-      .then(res => res.json())
-      .then(data => setQuiz(data))
+    fetch(`/api/quiz/${params.id}`).then(res => res.json()).then(setQuiz)
   }, [params.id])
 
   const handleSubmit = () => {
     let correct = 0
     quiz.questions.forEach((q: any) => {
-      if (answers[q.id] === q.answer) {
-        correct++
-      }
+      if (answers[q.id] === q.answer) correct++
     })
     setScore(correct)
     setSubmitted(true)
   }
 
-  if (!quiz) return <div className="container">جاري التحميل...</div>
+  if (!quiz) return (
+    <div className="page-container">
+      <div className="loading">⏳ جاري التحميل...</div>
+    </div>
+  )
 
   return (
-    <div className="container">
-      <h1 className="header">{quiz.title}</h1>
-      {quiz.description && <p style={{ textAlign: 'center', marginBottom: '20px' }}>{quiz.description}</p>}
-      
-      <nav className="nav">
-        <Link href="/">الرئيسية</Link>
-        <Link href="/quiz">قائمة الامتحانات</Link>
-      </nav>
+    <div className="page-container">
+      <NavBar title={quiz.title} backHref="/quiz" backLabel="الامتحانات" />
+      <div className="page-header">
+        <h1 className="page-title">🎯 {quiz.title}</h1>
+        {quiz.description && <p className="hero-subtitle">{quiz.description}</p>}
+      </div>
 
-      {!submitted ? (
-        <div>
-          {quiz.questions.map((q: any, index: number) => (
-            <div key={q.id} className="word-item">
-              <h3>السؤال {index + 1}: {q.question}</h3>
-              <SpeakButton text={q.question} lang="nl-NL" />
-              
-              <div style={{ marginTop: '15px' }}>
-                {q.options.map((option: string, oIndex: number) => (
-                  <div key={oIndex} style={{ marginBottom: '10px' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-                      <input
-                        type="radio"
-                        name={q.id}
-                        value={option}
-                        onChange={(e) => setAnswers({...answers, [q.id]: e.target.value})}
-                        style={{ marginLeft: '10px' }}
-                      />
-                      {option}
-                    </label>
+      <div className="words-container">
+        {!submitted ? (
+          <>
+            <div className="word-list">
+              {quiz.questions.map((q: any, index: number) => (
+                <div key={q.id} className="word-card">
+                  <div className="word-header">
+                    <h3 className="word-dutch">السؤال {index + 1}</h3>
+                    <SpeakButton text={q.question} lang="nl-NL" />
                   </div>
-                ))}
+                  <p className="word-arabic" style={{ marginBottom: '15px' }}>{q.question}</p>
+
+                  <div className="options-list">
+                    {q.options.map((option: string, oIndex: number) => (
+                      <label key={oIndex} className={`option-label ${answers[q.id] === option ? 'selected' : ''}`}>
+                        <input
+                          type="radio"
+                          name={q.id}
+                          value={option}
+                          onChange={(e) => setAnswers({ ...answers, [q.id]: e.target.value })}
+                        />
+                        {option}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <button onClick={handleSubmit} className="btn btn-primary submit-btn">
+              ✅ إرسال الإجابات
+            </button>
+          </>
+        ) : (
+          <>
+            <div className="score-card">
+              <div className="score-number">{score}/{quiz.questions.length}</div>
+              <div className="score-emoji">
+                {score === quiz.questions.length ? '🎉 ممتاز!' : score >= quiz.questions.length / 2 ? '👍 جيد!' : '💪 حاول مرة أخرى!'}
               </div>
             </div>
-          ))}
-          
-          <button onClick={handleSubmit} className="btn" style={{ marginTop: '20px' }}>
-            إرسال الإجابات
-          </button>
-        </div>
-      ) : (
-        <div style={{ textAlign: 'center', marginTop: '30px' }}>
-          <h2>النتيجة: {score} من {quiz.questions.length}</h2>
-          <p style={{ fontSize: '24px', marginTop: '20px' }}>
-            {score === quiz.questions.length ? '🎉 ممتاز!' : score >= quiz.questions.length / 2 ? '👍 جيد!' : '💪 حاول مرة أخرى!'}
-          </p>
-          
-          <div style={{ marginTop: '30px' }}>
-            {quiz.questions.map((q: any, index: number) => (
-              <div key={q.id} className="word-item">
-                <h3>السؤال {index + 1}: {q.question}</h3>
-                <p><strong>إجابتك:</strong> {answers[q.id] || 'لم تجب'}</p>
-                <p><strong>الإجابة الصحيحة:</strong> {q.answer}</p>
-                <p style={{ color: answers[q.id] === q.answer ? 'green' : 'red' }}>
-                  {answers[q.id] === q.answer ? '✓ صحيح' : '✗ خطأ'}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+
+            <div className="word-list">
+              {quiz.questions.map((q: any, index: number) => (
+                <div key={q.id} className={`word-card ${answers[q.id] === q.answer ? 'correct' : 'wrong'}`}>
+                  <h3 className="word-dutch">السؤال {index + 1}</h3>
+                  <p className="word-arabic">{q.question}</p>
+                  <p className="word-other">
+                    <span className="label">إجابتك:</span> {answers[q.id] || 'لم تجب'}
+                  </p>
+                  <p className="word-other">
+                    <span className="label">الصحيحة:</span> {q.answer}
+                  </p>
+                  <span className={`result-badge ${answers[q.id] === q.answer ? 'correct' : 'wrong'}`}>
+                    {answers[q.id] === q.answer ? '✓ صحيح' : '✗ خطأ'}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <Link href="/quiz" className="btn btn-primary submit-btn">
+              🔄 امتحان آخر
+            </Link>
+          </>
+        )}
+      </div>
     </div>
   )
 }

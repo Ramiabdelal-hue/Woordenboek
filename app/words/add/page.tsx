@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import NavBar from '@/components/NavBar'
 
 export default function AddWordPage() {
   const router = useRouter()
@@ -31,15 +32,9 @@ export default function AddWordPage() {
 
   return (
     <div className="page-container">
+      <NavBar title="➕ إضافة كلمة" backHref="/words" backLabel="الكلمات" />
       <div className="page-header">
         <h1 className="page-title">➕ إضافة كلمة جديدة</h1>
-        <div className="breadcrumb">
-          <Link href="/">الرئيسية</Link>
-          <span>/</span>
-          <Link href="/words">الكلمات</Link>
-          <span>/</span>
-          <span>إضافة</span>
-        </div>
       </div>
 
       <div className="form-card">

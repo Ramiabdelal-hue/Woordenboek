@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
+import NavBar from '@/components/NavBar'
 
 export const dynamic = 'force-dynamic'
 
@@ -10,24 +11,41 @@ export default async function QuizPage() {
   })
 
   return (
-    <div className="container">
-      <h1 className="header">الامتحانات</h1>
-      <nav className="nav">
-        <Link href="/">الرئيسية</Link>
-        <Link href="/quiz/create">إنشاء امتحان جديد</Link>
-      </nav>
-      
-      <div className="word-list">
-        {quizzes.map((quiz) => (
-          <div key={quiz.id} className="word-item">
-            <h3>{quiz.title}</h3>
-            {quiz.description && <p>{quiz.description}</p>}
-            <p><strong>عدد الأسئلة:</strong> {quiz.questions.length}</p>
-            <Link href={`/quiz/${quiz.id}`}>
-              <button className="btn">ابدأ الامتحان</button>
-            </Link>
-          </div>
-        ))}
+    <div className="page-container">
+      <NavBar title="🎯 الامتحانات" />
+      <div className="page-header">
+        <h1 className="page-title">🎯 الامتحانات</h1>
+      </div>
+
+      <div className="words-container">
+        <div className="search-section">
+          <Link href="/quiz/create" className="btn btn-primary">
+            ➕ إنشاء امتحان جديد
+          </Link>
+        </div>
+
+        <div className="word-list">
+          {quizzes.length === 0 ? (
+            <div className="no-results">😕 لا توجد امتحانات بعد</div>
+          ) : (
+            quizzes.map((quiz) => (
+              <div key={quiz.id} className="word-card">
+                <div className="word-header">
+                  <h3 className="word-dutch">{quiz.title}</h3>
+                  <span className="quiz-count">{quiz.questions.length} سؤال</span>
+                </div>
+                <div className="word-content">
+                  {quiz.description && (
+                    <p className="word-arabic">{quiz.description}</p>
+                  )}
+                  <Link href={`/quiz/${quiz.id}`} className="btn btn-primary" style={{ marginTop: '10px', display: 'inline-block' }}>
+                    🚀 ابدأ الامتحان
+                  </Link>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </div>
   )

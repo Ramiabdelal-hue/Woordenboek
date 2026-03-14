@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import SpeakButton from '@/components/SpeakButton'
+import NavBar from '@/components/NavBar'
 
 interface Word {
   id: string
@@ -33,13 +34,9 @@ export default function WordsPage() {
 
   return (
     <div className="page-container">
+      <NavBar title="📚 الكلمات" />
       <div className="page-header">
         <h1 className="page-title">📚 قائمة الكلمات</h1>
-        <div className="breadcrumb">
-          <Link href="/">الرئيسية</Link>
-          <span>/</span>
-          <span>الكلمات</span>
-        </div>
       </div>
 
       <div className="words-container">
