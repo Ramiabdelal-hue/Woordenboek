@@ -822,3 +822,15 @@ body {
     width: 100%;
   }
 }
+
+/* ===== ERROR BANNER ===== */
+.error-banner {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  font-weight: 500;
+}

@@ -13,11 +13,13 @@ export default function AddWordPage() {
     otherMeaning: ''
   })
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    
+    setError('')
+
     const response = await fetch('/api/words', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -26,6 +28,9 @@ export default function AddWordPage() {
 
     if (response.ok) {
       router.push('/words')
+    } else {
+      const data = await response.json()
+      setError(data.error || 'حدث خطأ، حاول مرة أخرى')
     }
     setLoading(false)
   }
@@ -39,6 +44,7 @@ export default function AddWordPage() {
 
       <div className="form-card">
         <form onSubmit={handleSubmit}>
+          {error && <div className="error-banner">⚠️ {error}</div>}
           <div className="form-group">
             <label>🇳🇱 الكلمة بالهولندية</label>
             <input
