@@ -10,81 +10,61 @@ export default function EditSentencePage() {
   const params = useParams()
   const [loading, setLoading] = useState(false)
   const [words, setWords] = useState<any[]>([])
-  const [formData, setFormData] = useState({
-    dutch: '', arabic: '', wordId: ''
-  })
+  const [formData, setFormData] = useState({ dutch: '', arabic: '', wordId: '' })
 
   useEffect(() => {
     fetch('/api/words').then(r => r.json()).then(setWords)
-    fetch(`/api/sentences/${params.id}`)
-      .then(r => r.json())
-      .then(data => setFormData({
-        dutch: data.dutch,
-        arabic: data.arabic,
-        wordId: data.wordId
-      }))
+    fetch(`/api/sentences/${params.id}`).then(r => r.json())
+      .then(data => setFormData({ dutch: data.dutch, arabic: data.arabic, wordId: data.wordId || '' }))
   }, [params.id])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-
     const res = await fetch(`/api/sentences/${params.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
     })
-
     if (res.ok) router.push('/sentences')
     setLoading(false)
   }
 
   return (
     <div className="page-container">
-      <NavBar title="✏️ تعديل جملة" backHref="/sentences" backLabel="الجمل" />
+      <NavBar title="✏️ Zin bewerken" backHref="/sentences" backLabel="Zinnen" />
       <div className="page-header">
-        <h1 className="page-title">✏️ تعديل الجملة</h1>
+        <h1 className="page-title">✏️ Zin bewerken</h1>
       </div>
 
       <div className="form-card">
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>🇳🇱 الجملة بالهولندية</label>
-            <textarea
-              required
-              value={formData.dutch}
-              onChange={(e) => setFormData({ ...formData, dutch: e.target.value })}
-            />
+            <label>🇳🇱 Nederlandse zin</label>
+            <textarea required value={formData.dutch}
+              onChange={(e) => setFormData({ ...formData, dutch: e.target.value })} />
           </div>
-
           <div className="form-group">
-            <label>🇸🇦 الترجمة بالعربية</label>
-            <textarea
-              required
-              value={formData.arabic}
-              onChange={(e) => setFormData({ ...formData, arabic: e.target.value })}
-            />
+            <label>🇸🇦 Arabische vertaling</label>
+            <textarea required value={formData.arabic}
+              onChange={(e) => setFormData({ ...formData, arabic: e.target.value })} />
           </div>
-
           <div className="form-group">
-            <label>📚 الكلمة المرتبطة (اختياري)</label>
-            <select
-              value={formData.wordId}
+            <label>📚 Gekoppeld woord (optioneel)</label>
+            <select value={formData.wordId}
               onChange={(e) => setFormData({ ...formData, wordId: e.target.value })}
-              className="form-select"
-            >
-              <option value="">-- اختر كلمة --</option>
+              className="form-select">
+              <option value="">-- Kies een woord --</option>
               {words.map(w => (
                 <option key={w.id} value={w.id}>{w.dutch} - {w.arabicMeaning}</option>
               ))}
             </select>
           </div>
-
           <div className="form-actions">
             <button type="submit" className="btn btn-primary" disabled={loading}>
-              {loading ? '⏳ جاري الحفظ...' : '✅ حفظ التعديلات'}
+              {loading ? '⏳ Opslaan...' : '✅ Wijzigingen opslaan'}
             </button>
-            <Link href="/sentences" className="btn btn-secondary">❌ إلغاء</Link>
+            <Link href="/sentences" className="btn btn-secondary">❌ Annuleren</Link>
           </div>
         </form>
       </div>

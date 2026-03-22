@@ -6,10 +6,10 @@ interface NavBarProps {
   backLabel?: string
 }
 
-export default function NavBar({ title, backHref = '/', backLabel = 'الرئيسية' }: NavBarProps) {
+export default function NavBar({ title, backHref = '/', backLabel = 'Home' }: NavBarProps) {
   return (
     <div className="navbar">
-      <Link href="/" className="home-btn" aria-label="الرئيسية">
+      <Link href="/" className="home-btn" aria-label="Home">
         🏠
       </Link>
       <h2 className="navbar-title">{title}</h2>

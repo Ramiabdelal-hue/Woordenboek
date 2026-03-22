@@ -17,9 +17,7 @@ export default function WordsPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    fetchWords()
-  }, [])
+  useEffect(() => { fetchWords() }, [])
 
   const fetchWords = async () => {
     const response = await fetch('/api/words')
@@ -34,9 +32,9 @@ export default function WordsPage() {
 
   return (
     <div className="page-container">
-      <NavBar title="📚 الكلمات" />
+      <NavBar title="📚 Woorden" />
       <div className="page-header">
-        <h1 className="page-title">📚 قائمة الكلمات</h1>
+        <h1 className="page-title">📚 Woordenlijst</h1>
       </div>
 
       <div className="words-container">
@@ -45,37 +43,29 @@ export default function WordsPage() {
             <span className="search-icon">🔍</span>
             <input
               type="text"
-              placeholder="ابحث عن كلمة بالهولندية..."
+              placeholder="Zoek een woord..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-input"
             />
             {searchTerm && (
-              <button 
-                className="clear-search"
-                onClick={() => setSearchTerm('')}
-              >
-                ✕
-              </button>
+              <button className="clear-search" onClick={() => setSearchTerm('')}>✕</button>
             )}
           </div>
           <Link href="/words/add" className="btn btn-primary">
-            ➕ إضافة كلمة جديدة
+            ➕ Nieuw woord
           </Link>
         </div>
 
         {loading ? (
-          <div className="loading">⏳ جاري التحميل...</div>
+          <div className="loading">⏳ Laden...</div>
         ) : (
           <>
-            <div className="results-count">
-              {filteredWords.length} كلمة
-            </div>
-            
+            <div className="results-count">{filteredWords.length} woorden</div>
             <div className="word-list">
               {filteredWords.length === 0 ? (
                 <div className="no-results">
-                  <p>😕 لا توجد نتائج للبحث "{searchTerm}"</p>
+                  <p>😕 Geen resultaten voor "{searchTerm}"</p>
                 </div>
               ) : (
                 filteredWords.map((word) => (
@@ -89,12 +79,12 @@ export default function WordsPage() {
                     </div>
                     <div className="word-content">
                       <p className="word-arabic">
-                        <span className="label">🇸🇦 العربية:</span>
+                        <span className="label">🇸🇦 Arabisch:</span>
                         {word.arabicMeaning}
                       </p>
                       {word.otherMeaning && (
                         <p className="word-other">
-                          <span className="label">📝 ملاحظات:</span>
+                          <span className="label">📝 Notities:</span>
                           {word.otherMeaning}
                         </p>
                       )}

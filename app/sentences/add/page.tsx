@@ -29,41 +29,31 @@ export default function AddSentencePage() {
 
   return (
     <div className="page-container">
-      <NavBar title="➕ إضافة جملة" backHref="/sentences" backLabel="الجمل" />
+      <NavBar title="➕ Zin toevoegen" backHref="/sentences" backLabel="Zinnen" />
       <div className="page-header">
-        <h1 className="page-title">➕ إضافة جملة جديدة</h1>
+        <h1 className="page-title">➕ Nieuwe zin</h1>
       </div>
 
       <div className="form-card">
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>🇳🇱 الجملة بالهولندية</label>
-            <textarea
-              required
-              placeholder="اكتب الجملة بالهولندية..."
+            <label>🇳🇱 Nederlandse zin</label>
+            <textarea required placeholder="Schrijf de zin in het Nederlands..."
               value={formData.dutch}
-              onChange={(e) => setFormData({ ...formData, dutch: e.target.value })}
-            />
+              onChange={(e) => setFormData({ ...formData, dutch: e.target.value })} />
           </div>
-
           <div className="form-group">
-            <label>🇸🇦 الترجمة بالعربية</label>
-            <textarea
-              required
-              placeholder="اكتب الترجمة بالعربية..."
+            <label>🇸🇦 Arabische vertaling</label>
+            <textarea required placeholder="Schrijf de vertaling in het Arabisch..."
               value={formData.arabic}
-              onChange={(e) => setFormData({ ...formData, arabic: e.target.value })}
-            />
+              onChange={(e) => setFormData({ ...formData, arabic: e.target.value })} />
           </div>
-
           <div className="form-group">
-            <label>📚 الكلمة المرتبطة (اختياري)</label>
-            <select
-              value={formData.wordId}
+            <label>📚 Gekoppeld woord (optioneel)</label>
+            <select value={formData.wordId}
               onChange={(e) => setFormData({ ...formData, wordId: e.target.value })}
-              className="form-select"
-            >
-              <option value="">-- اختر كلمة --</option>
+              className="form-select">
+              <option value="">-- Kies een woord --</option>
               {words.map(word => (
                 <option key={word.id} value={word.id}>
                   {word.dutch} - {word.arabicMeaning}
@@ -71,12 +61,11 @@ export default function AddSentencePage() {
               ))}
             </select>
           </div>
-
           <div className="form-actions">
             <button type="submit" className="btn btn-primary" disabled={loading}>
-              {loading ? '⏳ جاري الحفظ...' : '✅ حفظ الجملة'}
+              {loading ? '⏳ Opslaan...' : '✅ Zin opslaan'}
             </button>
-            <Link href="/sentences" className="btn btn-secondary">❌ إلغاء</Link>
+            <Link href="/sentences" className="btn btn-secondary">❌ Annuleren</Link>
           </div>
         </form>
       </div>

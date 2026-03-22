@@ -28,13 +28,13 @@ export default function TakeQuizPage() {
 
   if (!quiz) return (
     <div className="page-container">
-      <div className="loading">⏳ جاري التحميل...</div>
+      <div className="loading">⏳ Laden...</div>
     </div>
   )
 
   return (
     <div className="page-container">
-      <NavBar title={quiz.title} backHref="/quiz" backLabel="الامتحانات" />
+      <NavBar title={quiz.title} backHref="/quiz" backLabel="Quizzen" />
       <div className="page-header">
         <h1 className="page-title">🎯 {quiz.title}</h1>
         {quiz.description && <p className="hero-subtitle">{quiz.description}</p>}
@@ -47,20 +47,15 @@ export default function TakeQuizPage() {
               {quiz.questions.map((q: any, index: number) => (
                 <div key={q.id} className="word-card">
                   <div className="word-header">
-                    <h3 className="word-dutch">السؤال {index + 1}</h3>
+                    <h3 className="word-dutch">Vraag {index + 1}</h3>
                     <SpeakButton text={q.question} lang="nl-NL" />
                   </div>
                   <p className="word-arabic" style={{ marginBottom: '15px' }}>{q.question}</p>
-
                   <div className="options-list">
                     {q.options.map((option: string, oIndex: number) => (
                       <label key={oIndex} className={`option-label ${answers[q.id] === option ? 'selected' : ''}`}>
-                        <input
-                          type="radio"
-                          name={q.id}
-                          value={option}
-                          onChange={(e) => setAnswers({ ...answers, [q.id]: e.target.value })}
-                        />
+                        <input type="radio" name={q.id} value={option}
+                          onChange={(e) => setAnswers({ ...answers, [q.id]: e.target.value })} />
                         {option}
                       </label>
                     ))}
@@ -68,9 +63,8 @@ export default function TakeQuizPage() {
                 </div>
               ))}
             </div>
-
             <button onClick={handleSubmit} className="btn btn-primary submit-btn">
-              ✅ إرسال الإجابات
+              ✅ Antwoorden versturen
             </button>
           </>
         ) : (
@@ -78,30 +72,28 @@ export default function TakeQuizPage() {
             <div className="score-card">
               <div className="score-number">{score}/{quiz.questions.length}</div>
               <div className="score-emoji">
-                {score === quiz.questions.length ? '🎉 ممتاز!' : score >= quiz.questions.length / 2 ? '👍 جيد!' : '💪 حاول مرة أخرى!'}
+                {score === quiz.questions.length ? '🎉 Uitstekend!' : score >= quiz.questions.length / 2 ? '👍 Goed!' : '💪 Probeer opnieuw!'}
               </div>
             </div>
-
             <div className="word-list">
               {quiz.questions.map((q: any, index: number) => (
                 <div key={q.id} className={`word-card ${answers[q.id] === q.answer ? 'correct' : 'wrong'}`}>
-                  <h3 className="word-dutch">السؤال {index + 1}</h3>
+                  <h3 className="word-dutch">Vraag {index + 1}</h3>
                   <p className="word-arabic">{q.question}</p>
                   <p className="word-other">
-                    <span className="label">إجابتك:</span> {answers[q.id] || 'لم تجب'}
+                    <span className="label">Jouw antwoord:</span> {answers[q.id] || 'Niet beantwoord'}
                   </p>
                   <p className="word-other">
-                    <span className="label">الصحيحة:</span> {q.answer}
+                    <span className="label">Juiste antwoord:</span> {q.answer}
                   </p>
                   <span className={`result-badge ${answers[q.id] === q.answer ? 'correct' : 'wrong'}`}>
-                    {answers[q.id] === q.answer ? '✓ صحيح' : '✗ خطأ'}
+                    {answers[q.id] === q.answer ? '✓ Correct' : '✗ Fout'}
                   </span>
                 </div>
               ))}
             </div>
-
             <Link href="/quiz" className="btn btn-primary submit-btn">
-              🔄 امتحان آخر
+              🔄 Andere quiz
             </Link>
           </>
         )}

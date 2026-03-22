@@ -7,11 +7,7 @@ import NavBar from '@/components/NavBar'
 
 export default function AddWordPage() {
   const router = useRouter()
-  const [formData, setFormData] = useState({
-    dutch: '',
-    arabicMeaning: '',
-    otherMeaning: ''
-  })
+  const [formData, setFormData] = useState({ dutch: '', arabicMeaning: '', otherMeaning: '' })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -19,71 +15,53 @@ export default function AddWordPage() {
     e.preventDefault()
     setLoading(true)
     setError('')
-
     const response = await fetch('/api/words', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
     })
-
     if (response.ok) {
       router.push('/words')
     } else {
       const data = await response.json()
-      setError(data.error || 'حدث خطأ، حاول مرة أخرى')
+      setError(data.error || 'Er is een fout opgetreden')
     }
     setLoading(false)
   }
 
   return (
     <div className="page-container">
-      <NavBar title="➕ إضافة كلمة" backHref="/words" backLabel="الكلمات" />
+      <NavBar title="➕ Woord toevoegen" backHref="/words" backLabel="Woorden" />
       <div className="page-header">
-        <h1 className="page-title">➕ إضافة كلمة جديدة</h1>
+        <h1 className="page-title">➕ Nieuw woord</h1>
       </div>
 
       <div className="form-card">
         <form onSubmit={handleSubmit}>
           {error && <div className="error-banner">⚠️ {error}</div>}
           <div className="form-group">
-            <label>🇳🇱 الكلمة بالهولندية</label>
-            <input
-              type="text"
-              required
-              placeholder="مثال: huis"
+            <label>🇳🇱 Nederlands woord</label>
+            <input type="text" required placeholder="bijv. huis"
               value={formData.dutch}
-              onChange={(e) => setFormData({...formData, dutch: e.target.value})}
-            />
+              onChange={(e) => setFormData({ ...formData, dutch: e.target.value })} />
           </div>
-
           <div className="form-group">
-            <label>🇸🇦 المعنى بالعربية</label>
-            <input
-              type="text"
-              required
-              placeholder="مثال: بيت"
+            <label>🇸🇦 Arabische betekenis</label>
+            <input type="text" required placeholder="bijv. بيت"
               value={formData.arabicMeaning}
-              onChange={(e) => setFormData({...formData, arabicMeaning: e.target.value})}
-            />
+              onChange={(e) => setFormData({ ...formData, arabicMeaning: e.target.value })} />
           </div>
-
           <div className="form-group">
-            <label>📝 معنى آخر (اختياري)</label>
-            <input
-              type="text"
-              placeholder="معنى إضافي أو ملاحظات"
+            <label>📝 Extra betekenis (optioneel)</label>
+            <input type="text" placeholder="Extra betekenis of notities"
               value={formData.otherMeaning}
-              onChange={(e) => setFormData({...formData, otherMeaning: e.target.value})}
-            />
+              onChange={(e) => setFormData({ ...formData, otherMeaning: e.target.value })} />
           </div>
-
           <div className="form-actions">
             <button type="submit" className="btn btn-primary" disabled={loading}>
-              {loading ? '⏳ جاري الحفظ...' : '✅ حفظ الكلمة'}
+              {loading ? '⏳ Opslaan...' : '✅ Woord opslaan'}
             </button>
-            <Link href="/words" className="btn btn-secondary">
-              ❌ إلغاء
-            </Link>
+            <Link href="/words" className="btn btn-secondary">❌ Annuleren</Link>
           </div>
         </form>
       </div>

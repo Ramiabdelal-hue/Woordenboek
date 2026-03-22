@@ -3,13 +3,13 @@ import './globals.css'
 import ServiceWorkerRegister from './components/ServiceWorkerRegister'
 
 export const metadata: Metadata = {
-  title: 'قاموس هولندي - عربي',
-  description: 'قاموس تفاعلي للترجمة بين الهولندية والعربية',
+  title: 'Nederlands - Arabisch Woordenboek',
+  description: 'Interactief woordenboek voor vertaling tussen Nederlands en Arabisch',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'قاموس',
+    title: 'Woordenboek',
   },
   icons: {
     apple: '/icons/icon-192.png',

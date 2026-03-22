@@ -13,21 +13,21 @@ export default async function SentencesPage() {
 
   return (
     <div className="page-container">
-      <NavBar title="💬 الجمل" />
+      <NavBar title="💬 Zinnen" />
       <div className="page-header">
-        <h1 className="page-title">💬 قائمة الجمل</h1>
+        <h1 className="page-title">💬 Zinnenlijst</h1>
       </div>
 
       <div className="words-container">
         <div className="search-section">
           <Link href="/sentences/add" className="btn btn-primary">
-            ➕ إضافة جملة جديدة
+            ➕ Nieuwe zin
           </Link>
         </div>
 
         <div className="word-list">
           {sentences.length === 0 ? (
-            <div className="no-results">😕 لا توجد جمل بعد</div>
+            <div className="no-results">😕 Nog geen zinnen</div>
           ) : (
             sentences.map((sentence) => (
               <div key={sentence.id} className="word-card">
@@ -40,11 +40,11 @@ export default async function SentencesPage() {
                 </div>
                 <div className="word-content">
                   <p className="word-arabic">
-                    <span className="label">🇸🇦 الترجمة:</span>
+                    <span className="label">🇸🇦 Vertaling:</span>
                     {sentence.arabic}
                   </p>
                   <p className="word-other">
-                    <span className="label">📚 الكلمة:</span>
+                    <span className="label">📚 Woord:</span>
                     {sentence.word?.dutch ?? '—'}
                   </p>
                 </div>

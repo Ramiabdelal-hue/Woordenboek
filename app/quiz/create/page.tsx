@@ -43,72 +43,49 @@ export default function CreateQuizPage() {
 
   return (
     <div className="page-container">
-      <NavBar title="➕ إنشاء امتحان" backHref="/quiz" backLabel="الامتحانات" />
+      <NavBar title="➕ Quiz aanmaken" backHref="/quiz" backLabel="Quizzen" />
       <div className="page-header">
-        <h1 className="page-title">➕ إنشاء امتحان جديد</h1>
+        <h1 className="page-title">➕ Nieuwe quiz</h1>
       </div>
 
       <div className="form-card">
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>📝 عنوان الامتحان</label>
-            <input
-              type="text"
-              required
-              placeholder="مثال: امتحان الكلمات الأساسية"
+            <label>📝 Titel van de quiz</label>
+            <input type="text" required placeholder="bijv. Basiswoorden quiz"
               value={quiz.title}
-              onChange={(e) => setQuiz({ ...quiz, title: e.target.value })}
-            />
+              onChange={(e) => setQuiz({ ...quiz, title: e.target.value })} />
           </div>
-
           <div className="form-group">
-            <label>📄 الوصف (اختياري)</label>
-            <textarea
-              placeholder="وصف الامتحان..."
+            <label>📄 Beschrijving (optioneel)</label>
+            <textarea placeholder="Beschrijving van de quiz..."
               value={quiz.description}
-              onChange={(e) => setQuiz({ ...quiz, description: e.target.value })}
-            />
+              onChange={(e) => setQuiz({ ...quiz, description: e.target.value })} />
           </div>
 
           <div className="questions-section">
-            <h3 className="section-title">الأسئلة</h3>
-
+            <h3 className="section-title">Vragen</h3>
             {questions.map((q, qIndex) => (
               <div key={qIndex} className="question-card">
-                <div className="question-number">السؤال {qIndex + 1}</div>
-
+                <div className="question-number">Vraag {qIndex + 1}</div>
                 <div className="form-group">
-                  <label>السؤال</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="اكتب السؤال..."
+                  <label>Vraag</label>
+                  <input type="text" required placeholder="Schrijf de vraag..."
                     value={q.question}
-                    onChange={(e) => updateQuestion(qIndex, 'question', e.target.value)}
-                  />
+                    onChange={(e) => updateQuestion(qIndex, 'question', e.target.value)} />
                 </div>
-
                 <div className="form-group">
-                  <label>✅ الإجابة الصحيحة</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="الإجابة الصحيحة..."
+                  <label>✅ Juiste antwoord</label>
+                  <input type="text" required placeholder="Het juiste antwoord..."
                     value={q.answer}
-                    onChange={(e) => updateQuestion(qIndex, 'answer', e.target.value)}
-                  />
+                    onChange={(e) => updateQuestion(qIndex, 'answer', e.target.value)} />
                 </div>
-
-                <label className="options-label">الخيارات</label>
+                <label className="options-label">Keuzes</label>
                 {q.options.map((option, oIndex) => (
                   <div key={oIndex} className="form-group">
-                    <input
-                      type="text"
-                      required
-                      placeholder={`الخيار ${oIndex + 1}`}
+                    <input type="text" required placeholder={`Keuze ${oIndex + 1}`}
                       value={option}
-                      onChange={(e) => updateOption(qIndex, oIndex, e.target.value)}
-                    />
+                      onChange={(e) => updateOption(qIndex, oIndex, e.target.value)} />
                   </div>
                 ))}
               </div>
@@ -117,10 +94,10 @@ export default function CreateQuizPage() {
 
           <div className="form-actions">
             <button type="button" onClick={addQuestion} className="btn btn-secondary">
-              ➕ إضافة سؤال
+              ➕ Vraag toevoegen
             </button>
             <button type="submit" className="btn btn-primary" disabled={loading}>
-              {loading ? '⏳ جاري الحفظ...' : '✅ حفظ الامتحان'}
+              {loading ? '⏳ Opslaan...' : '✅ Quiz opslaan'}
             </button>
           </div>
         </form>
