@@ -325,6 +325,25 @@ body {
   background: #e0e0e0;
 }
 
+.btn-delete {
+  background: #fff0f0;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.btn-delete:hover {
+  background: #ffcccc;
+}
+
 /* ===== BUTTONS ===== */
 .btn {
   padding: 12px 20px;

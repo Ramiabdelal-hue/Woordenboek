@@ -24,3 +24,8 @@ export async function PUT(request: Request, { params }: { params: { id: string }
   })
   return NextResponse.json(sentence)
 }
+
+export async function DELETE(_: Request, { params }: { params: { id: string } }) {
+  await prisma.sentence.delete({ where: { id: params.id } })
+  return NextResponse.json({ success: true })
+}

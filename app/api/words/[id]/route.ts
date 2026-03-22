@@ -31,3 +31,8 @@ export async function PUT(request: Request, { params }: { params: { id: string }
   })
   return NextResponse.json(word)
 }
+
+export async function DELETE(_: Request, { params }: { params: { id: string } }) {
+  await prisma.word.delete({ where: { id: params.id } })
+  return NextResponse.json({ success: true })
+}

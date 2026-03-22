@@ -9,6 +9,7 @@ export default function AddSentencePage() {
   const router = useRouter()
   const [words, setWords] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
   const [formData, setFormData] = useState({ dutch: '', arabic: '', wordId: '' })
 
   useEffect(() => {
@@ -18,12 +19,18 @@ export default function AddSentencePage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    setError('')
     const response = await fetch('/api/sentences', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
     })
-    if (response.ok) router.push('/sentences')
+    if (response.ok) {
+      router.push('/sentences')
+    } else {
+      const data = await response.json()
+      setError(data.error || 'Er is een fout opgetreden')
+    }
     setLoading(false)
   }
 
@@ -36,6 +43,7 @@ export default function AddSentencePage() {
 
       <div className="form-card">
         <form onSubmit={handleSubmit}>
+          {error && <div className="error-banner">⚠️ {error}</div>}
           <div className="form-group">
             <label>🇳🇱 Nederlandse zin</label>
             <textarea required placeholder="Schrijf de zin in het Nederlands..."

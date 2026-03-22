@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import SpeakButton from '@/components/SpeakButton'
 import NavBar from '@/components/NavBar'
@@ -17,13 +17,19 @@ export default function WordsPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => { fetchWords() }, [])
-
-  const fetchWords = async () => {
+  const fetchWords = useCallback(async () => {
     const response = await fetch('/api/words')
     const data = await response.json()
     setWords(data)
     setLoading(false)
+  }, [])
+
+  useEffect(() => { fetchWords() }, [fetchWords])
+
+  const handleDelete = async (id: string, name: string) => {
+    if (!confirm(`"${name}" verwijderen?`)) return
+    await fetch(`/api/words/${id}`, { method: 'DELETE' })
+    setWords(prev => prev.filter(w => w.id !== id))
   }
 
   const filteredWords = words.filter(word =>
@@ -74,6 +80,7 @@ export default function WordsPage() {
                       <h3 className="word-dutch">{word.dutch}</h3>
                       <div className="card-actions">
                         <Link href={`/words/edit/${word.id}`} className="btn-edit">✏️</Link>
+                        <button className="btn-delete" onClick={() => handleDelete(word.id, word.dutch)}>🗑️</button>
                         <SpeakButton text={word.dutch} lang="nl-NL" />
                       </div>
                     </div>
