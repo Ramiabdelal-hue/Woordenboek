@@ -57,9 +57,8 @@ export default function AddSentencePage() {
           </div>
 
           <div className="form-group">
-            <label>📚 الكلمة المرتبطة</label>
+            <label>📚 الكلمة المرتبطة (اختياري)</label>
             <select
-              required
               value={formData.wordId}
               onChange={(e) => setFormData({ ...formData, wordId: e.target.value })}
               className="form-select"

@@ -19,7 +19,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     data: {
       dutch: body.dutch,
       arabic: body.arabic,
-      wordId: body.wordId
+      wordId: body.wordId || null
     }
   })
   return NextResponse.json(sentence)

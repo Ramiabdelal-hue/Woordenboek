@@ -45,7 +45,7 @@ export default async function SentencesPage() {
                   </p>
                   <p className="word-other">
                     <span className="label">📚 الكلمة:</span>
-                    {sentence.word.dutch}
+                    {sentence.word?.dutch ?? '—'}
                   </p>
                 </div>
               </div>

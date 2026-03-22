@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     data: {
       dutch: body.dutch,
       arabic: body.arabic,
-      wordId: body.wordId
+      wordId: body.wordId || null
     }
   })
   return NextResponse.json(sentence)

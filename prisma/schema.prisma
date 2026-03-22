@@ -21,8 +21,8 @@ model Sentence {
   id        String   @id @default(cuid())
   dutch     String
   arabic    String
-  wordId    String
-  word      Word     @relation(fields: [wordId], references: [id], onDelete: Cascade)
+  wordId    String?
+  word      Word?    @relation(fields: [wordId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
