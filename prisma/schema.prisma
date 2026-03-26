@@ -8,13 +8,13 @@ datasource db {
 }
 
 model Quiz {
-  id           String         @id
-  title        String
-  description  String?
-  createdAt    DateTime       @default(now())
-  userId       String         @default("default_user")
-  User         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  QuizQuestion QuizQuestion[]
+  id          String         @id
+  title       String
+  description String?
+  createdAt   DateTime       @default(now())
+  userId      String         @default("default_user")
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questions   QuizQuestion[]
 }
 
 model QuizQuestion {
@@ -24,7 +24,7 @@ model QuizQuestion {
   answer    String
   options   String[]
   createdAt DateTime @default(now())
-  Quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
 }
 
 model Sentence {
@@ -35,8 +35,8 @@ model Sentence {
   createdAt DateTime @default(now())
   updatedAt DateTime
   userId    String   @default("default_user")
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Word      Word?    @relation(fields: [wordId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  word      Word?    @relation(fields: [wordId], references: [id], onDelete: Cascade)
 
   @@unique([dutch, userId])
 }
@@ -46,9 +46,9 @@ model User {
   username  String     @unique
   password  String
   createdAt DateTime   @default(now())
-  Quiz      Quiz[]
-  Sentence  Sentence[]
-  Word      Word[]
+  quizzes   Quiz[]
+  sentences Sentence[]
+  words     Word[]
 }
 
 model Word {
@@ -59,8 +59,8 @@ model Word {
   createdAt     DateTime   @default(now())
   updatedAt     DateTime
   userId        String     @default("default_user")
-  Sentence      Sentence[]
-  User          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sentences     Sentence[]
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([dutch, userId])
 }

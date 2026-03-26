@@ -12,6 +12,5 @@ export async function GET(_: Request, { params }: { params: { id: string } }) {
   if (!quiz) return NextResponse.json({ error: 'not found' }, { status: 404 })
 
   const questions = await prisma.quizQuestion.findMany({ where: { quizId: params.id } })
-
   return NextResponse.json({ ...quiz, questions })
 }
