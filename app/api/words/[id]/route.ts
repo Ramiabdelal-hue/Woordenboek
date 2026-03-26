@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(_: Request, { params }: { params: { id: string } }) {
-  const session = await getServerSession()
+  const session = await getServerSession(authOptions)
   if (!session?.user?.id) return NextResponse.json({ error: 'Niet ingelogd' }, { status: 401 })
 
   const word = await prisma.word.findFirst({ where: { id: params.id, userId: session.user.id } })
@@ -14,7 +15,7 @@ export async function GET(_: Request, { params }: { params: { id: string } }) {
 }
 
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
-  const session = await getServerSession()
+  const session = await getServerSession(authOptions)
   if (!session?.user?.id) return NextResponse.json({ error: 'Niet ingelogd' }, { status: 401 })
 
   const body = await request.json()
@@ -33,7 +34,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 }
 
 export async function DELETE(_: Request, { params }: { params: { id: string } }) {
-  const session = await getServerSession()
+  const session = await getServerSession(authOptions)
   if (!session?.user?.id) return NextResponse.json({ error: 'Niet ingelogd' }, { status: 401 })
 
   await prisma.word.deleteMany({ where: { id: params.id, userId: session.user.id } })
