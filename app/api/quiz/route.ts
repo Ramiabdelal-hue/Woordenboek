@@ -10,10 +10,18 @@ export async function GET() {
 
   const quizzes = await prisma.quiz.findMany({
     where: { userId: session.user.id },
-    include: { questions: true },
     orderBy: { createdAt: 'desc' }
   })
-  return NextResponse.json(quizzes)
+
+  // fetch questions for each quiz separately
+  const quizzesWithQuestions = await Promise.all(
+    quizzes.map(async (quiz) => {
+      const questions = await prisma.quizQuestion.findMany({ where: { quizId: quiz.id } })
+      return { ...quiz, questions }
+    })
+  )
+
+  return NextResponse.json(quizzesWithQuestions)
 }
 
 export async function POST(request: Request) {
@@ -27,16 +35,16 @@ export async function POST(request: Request) {
       title: body.quiz.title,
       description: body.quiz.description || null,
       userId: session.user.id,
-      questions: {
-        create: body.questions.map((q: any) => ({
-          question: q.question,
-          answer: q.answer,
-          options: q.options
-        }))
-      }
-    },
-    include: { questions: true }
+    }
   })
 
-  return NextResponse.json(quiz)
+  const questions = await Promise.all(
+    body.questions.map((q: any) =>
+      prisma.quizQuestion.create({
+        data: { quizId: quiz.id, question: q.question, answer: q.answer, options: q.options }
+      })
+    )
+  )
+
+  return NextResponse.json({ ...quiz, questions })
 }

@@ -8,10 +8,10 @@ export async function GET(_: Request, { params }: { params: { id: string } }) {
   const session = await getServerSession()
   if (!session?.user?.id) return NextResponse.json({ error: 'Niet ingelogd' }, { status: 401 })
 
-  const quiz = await prisma.quiz.findUnique({
-    where: { id: params.id },
-    include: { questions: true }
-  })
+  const quiz = await prisma.quiz.findUnique({ where: { id: params.id } })
   if (!quiz) return NextResponse.json({ error: 'not found' }, { status: 404 })
-  return NextResponse.json(quiz)
+
+  const questions = await prisma.quizQuestion.findMany({ where: { quizId: params.id } })
+
+  return NextResponse.json({ ...quiz, questions })
 }
