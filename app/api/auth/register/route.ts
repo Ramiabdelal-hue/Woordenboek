@@ -16,7 +16,11 @@ export async function POST(request: Request) {
 
   const hashed = await bcrypt.hash(password, 10)
   const user = await prisma.user.create({
-    data: { username, password: hashed }
+    data: {
+      id: crypto.randomUUID(),
+      username,
+      password: hashed
+    }
   })
 
   return NextResponse.json({ id: user.id, username: user.username })
