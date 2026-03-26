@@ -675,3 +675,10 @@ body {
 .login-card .btn-primary {
   margin-top: 8px;
 }
+
+.login-footer {
+  margin-top: 20px;
+  font-size: 0.75rem;
+  color: #bbb;
+  text-align: center;
+}

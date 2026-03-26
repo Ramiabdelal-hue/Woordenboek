@@ -100,6 +100,7 @@ export default function LoginPage() {
           </button>
         </form>
       </div>
+      <p className="login-footer">Made with ❤️ by Rami Abdelal</p>
     </div>
   )
 }
