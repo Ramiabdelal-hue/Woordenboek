@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className="home-container">
       <div className="hero-section">
-        <h1 className="hero-title">Nederlands - Arabisch Woordenboek</h1>
+        <h1 className="hero-title">Nederlands Woordenboek</h1>
         <p className="hero-subtitle">Leer Nederlands op een eenvoudige en leuke manier</p>
       </div>
 

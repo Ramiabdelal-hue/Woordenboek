@@ -55,7 +55,7 @@ export default function EditWordPage() {
               onChange={(e) => setFormData({ ...formData, dutch: e.target.value })} />
           </div>
           <div className="form-group">
-            <label>🇸🇦 Arabische betekenis</label>
+            <label>🌍 Moedertaal betekenis</label>
             <input type="text" required value={formData.arabicMeaning}
               onChange={(e) => setFormData({ ...formData, arabicMeaning: e.target.value })} />
           </div>

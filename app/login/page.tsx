@@ -51,7 +51,7 @@ export default function LoginPage() {
       <div className="login-card">
         <div className="login-logo">📚</div>
         <h1 className="login-title">Woordenboek</h1>
-        <p className="login-subtitle">Nederlands - Arabisch</p>
+        <p className="login-subtitle">Nederlands Woordenboek</p>
 
         <div className="login-tabs">
           <button

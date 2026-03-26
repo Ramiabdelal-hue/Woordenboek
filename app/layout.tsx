@@ -4,8 +4,8 @@ import ServiceWorkerRegister from './components/ServiceWorkerRegister'
 import SessionProvider from './components/SessionProvider'
 
 export const metadata: Metadata = {
-  title: 'Nederlands - Arabisch Woordenboek',
-  description: 'Interactief woordenboek voor vertaling tussen Nederlands en Arabisch',
+  title: 'Nederlands Woordenboek',
+  description: 'Interactief woordenboek voor het leren van Nederlands',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,

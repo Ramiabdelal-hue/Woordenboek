@@ -86,7 +86,7 @@ export default function WordsPage() {
                     </div>
                     <div className="word-content">
                       <p className="word-arabic">
-                        <span className="label">🇸🇦 Arabisch:</span>
+                        <span className="label">� Moedertaal:</span>
                         {word.arabicMeaning}
                       </p>
                       {word.otherMeaning && (

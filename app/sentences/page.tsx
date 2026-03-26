@@ -57,7 +57,7 @@ export default function SentencesPage() {
                   </div>
                   <div className="word-content">
                     <p className="word-arabic">
-                      <span className="label">🇸🇦 Vertaling:</span>
+                      <span className="label">🌍 Vertaling:</span>
                       {sentence.arabic}
                     </p>
                     <p className="word-other">

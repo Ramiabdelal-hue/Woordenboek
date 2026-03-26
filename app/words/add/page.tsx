@@ -46,7 +46,7 @@ export default function AddWordPage() {
               onChange={(e) => setFormData({ ...formData, dutch: e.target.value })} />
           </div>
           <div className="form-group">
-            <label>🇸🇦 Arabische betekenis</label>
+            <label>🌍 Moedertaal betekenis</label>
             <input type="text" required placeholder="bijv. بيت"
               value={formData.arabicMeaning}
               onChange={(e) => setFormData({ ...formData, arabicMeaning: e.target.value })} />

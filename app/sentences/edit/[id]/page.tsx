@@ -45,7 +45,7 @@ export default function EditSentencePage() {
               onChange={(e) => setFormData({ ...formData, dutch: e.target.value })} />
           </div>
           <div className="form-group">
-            <label>🇸🇦 Arabische vertaling</label>
+            <label>🌍 Moedertaal vertaling</label>
             <textarea required value={formData.arabic}
               onChange={(e) => setFormData({ ...formData, arabic: e.target.value })} />
           </div>
