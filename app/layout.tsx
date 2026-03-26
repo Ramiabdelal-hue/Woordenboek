@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import ServiceWorkerRegister from './components/ServiceWorkerRegister'
+import SessionProvider from './components/SessionProvider'
 
 export const metadata: Metadata = {
   title: 'Nederlands - Arabisch Woordenboek',
@@ -31,8 +32,10 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <body>
-        <ServiceWorkerRegister />
-        {children}
+        <SessionProvider>
+          <ServiceWorkerRegister />
+          {children}
+        </SessionProvider>
       </body>
     </html>
   )

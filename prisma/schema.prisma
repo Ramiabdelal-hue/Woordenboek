@@ -9,12 +9,16 @@ datasource db {
 
 model Word {
   id            String   @id @default(cuid())
-  dutch         String   @unique
+  dutch         String
   arabicMeaning String
   otherMeaning  String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   sentences     Sentence[]
+
+  @@unique([dutch, userId])
 }
 
 model Sentence {
@@ -23,14 +27,20 @@ model Sentence {
   arabic    String
   wordId    String?
   word      Word?    @relation(fields: [wordId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([dutch, userId])
 }
 
 model Quiz {
   id          String   @id @default(cuid())
   title       String
   description String?
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
   questions   QuizQuestion[]
 }
@@ -43,4 +53,14 @@ model QuizQuestion {
   answer    String
   options   String[]
   createdAt DateTime @default(now())
+}
+
+model User {
+  id        String     @id @default(cuid())
+  username  String     @unique
+  password  String
+  createdAt DateTime   @default(now())
+  words     Word[]
+  sentences Sentence[]
+  quizzes   Quiz[]
 }

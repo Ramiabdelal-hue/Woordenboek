@@ -1,10 +1,15 @@
 import { NextResponse } from 'next/server'
+import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/prisma'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
+  const session = await getServerSession()
+  if (!session?.user?.id) return NextResponse.json([], { status: 401 })
+
   const sentences = await prisma.sentence.findMany({
+    where: { userId: session.user.id },
     include: { word: true },
     orderBy: { createdAt: 'desc' }
   })
@@ -12,21 +17,23 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const body = await request.json()
+  const session = await getServerSession()
+  if (!session?.user?.id) return NextResponse.json({ error: 'Niet ingelogd' }, { status: 401 })
 
-  const existing = await prisma.sentence.findFirst({ where: { dutch: body.dutch } })
+  const body = await request.json()
+  const existing = await prisma.sentence.findFirst({
+    where: { dutch: body.dutch, userId: session.user.id }
+  })
   if (existing) {
-    return NextResponse.json(
-      { error: `De zin "${body.dutch}" bestaat al` },
-      { status: 409 }
-    )
+    return NextResponse.json({ error: `De zin bestaat al` }, { status: 409 })
   }
 
   const sentence = await prisma.sentence.create({
     data: {
       dutch: body.dutch,
       arabic: body.arabic,
-      wordId: body.wordId || null
+      wordId: body.wordId || null,
+      userId: session.user.id
     }
   })
   return NextResponse.json(sentence)

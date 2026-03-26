@@ -1,22 +1,32 @@
 import { NextResponse } from 'next/server'
+import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/prisma'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
+  const session = await getServerSession()
+  if (!session?.user?.id) return NextResponse.json([], { status: 401 })
+
   const words = await prisma.word.findMany({
-    include: { sentences: true }
+    where: { userId: session.user.id },
+    include: { sentences: true },
+    orderBy: { createdAt: 'desc' }
   })
   return NextResponse.json(words)
 }
 
 export async function POST(request: Request) {
-  const body = await request.json()
+  const session = await getServerSession()
+  if (!session?.user?.id) return NextResponse.json({ error: 'Niet ingelogd' }, { status: 401 })
 
-  const existing = await prisma.word.findUnique({ where: { dutch: body.dutch } })
+  const body = await request.json()
+  const existing = await prisma.word.findFirst({
+    where: { dutch: body.dutch, userId: session.user.id }
+  })
   if (existing) {
     return NextResponse.json(
-      { error: `الكلمة "${body.dutch}" موجودة بالفعل في القاموس` },
+      { error: `Het woord "${body.dutch}" bestaat al` },
       { status: 409 }
     )
   }
@@ -25,7 +35,8 @@ export async function POST(request: Request) {
     data: {
       dutch: body.dutch,
       arabicMeaning: body.arabicMeaning,
-      otherMeaning: body.otherMeaning || null
+      otherMeaning: body.otherMeaning || null,
+      userId: session.user.id
     }
   })
   return NextResponse.json(word)
