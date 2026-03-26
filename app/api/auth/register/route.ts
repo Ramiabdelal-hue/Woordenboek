@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   const { username, password } = await request.json()
 
   if (!username || !password || password.length < 4) {
-    return NextResponse.json({ error: 'Ongeldige gegevens' }, { status: 400 })
+    return NextResponse.json({ error: 'Wachtwoord moet minimaal 4 tekens zijn' }, { status: 400 })
   }
 
   const existing = await prisma.user.findUnique({ where: { username } })

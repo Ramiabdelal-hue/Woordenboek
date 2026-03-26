@@ -36,7 +36,9 @@ export default function LoginPage() {
     })
 
     if (result?.error) {
-      setError('Onjuiste gebruikersnaam of wachtwoord')
+      setError(`فشل تسجيل الدخول: ${result.error}`)
+    } else if (!result?.ok) {
+      setError('حدث خطأ غير متوقع، حاول مرة أخرى')
     } else {
       router.push('/')
       router.refresh()
