@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Quiz {
-  id          String         @id
+  id          String         @id @default(cuid())
   title       String
   description String?
   createdAt   DateTime       @default(now())
@@ -18,7 +18,7 @@ model Quiz {
 }
 
 model QuizQuestion {
-  id        String   @id
+  id        String   @id @default(cuid())
   quizId    String
   question  String
   answer    String
@@ -28,12 +28,12 @@ model QuizQuestion {
 }
 
 model Sentence {
-  id        String   @id
+  id        String   @id @default(cuid())
   dutch     String
   arabic    String
   wordId    String?
   createdAt DateTime @default(now())
-  updatedAt DateTime
+  updatedAt DateTime @updatedAt
   userId    String   @default("default_user")
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   word      Word?    @relation(fields: [wordId], references: [id], onDelete: Cascade)
@@ -42,7 +42,7 @@ model Sentence {
 }
 
 model User {
-  id        String     @id
+  id        String     @id @default(cuid())
   username  String     @unique
   password  String
   createdAt DateTime   @default(now())
@@ -52,12 +52,12 @@ model User {
 }
 
 model Word {
-  id            String     @id
-  dutch         String     @unique
+  id            String     @id @default(cuid())
+  dutch         String
   arabicMeaning String
   otherMeaning  String?
   createdAt     DateTime   @default(now())
-  updatedAt     DateTime
+  updatedAt     DateTime   @updatedAt
   userId        String     @default("default_user")
   sentences     Sentence[]
   user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)

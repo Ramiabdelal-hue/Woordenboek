@@ -32,6 +32,7 @@ export async function POST(request: Request) {
 
   const quiz = await prisma.quiz.create({
     data: {
+      id: crypto.randomUUID(),
       title: body.quiz.title,
       description: body.quiz.description || null,
       userId: session.user.id,
@@ -41,7 +42,13 @@ export async function POST(request: Request) {
   const questions = await Promise.all(
     body.questions.map((q: any) =>
       prisma.quizQuestion.create({
-        data: { quizId: quiz.id, question: q.question, answer: q.answer, options: q.options }
+        data: {
+          id: crypto.randomUUID(),
+          quizId: quiz.id,
+          question: q.question,
+          answer: q.answer,
+          options: q.options
+        }
       })
     )
   )
