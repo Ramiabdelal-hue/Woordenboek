@@ -38,5 +38,6 @@ export const authOptions: NextAuthOptions = {
   },
   pages: { signIn: '/login' },
   session: { strategy: 'jwt' },
-  secret: process.env.NEXTAUTH_SECRET || 'woordenboek-secret-key-2026'
+  secret: process.env.NEXTAUTH_SECRET || 'woordenboek-secret-key-2026',
+  trustHost: true,
 }
