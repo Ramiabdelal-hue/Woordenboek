@@ -1,14 +1,19 @@
-import { prisma } from '@/lib/prisma'
+'use client'
+
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import NavBar from '@/components/NavBar'
 
-export const dynamic = 'force-dynamic'
+export default function QuizPage() {
+  const [quizzes, setQuizzes] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
 
-export default async function QuizPage() {
-  const quizzes = await prisma.quiz.findMany({
-    include: { questions: true },
-    orderBy: { createdAt: 'desc' }
-  })
+  useEffect(() => {
+    fetch('/api/quiz').then(r => r.json()).then(data => {
+      setQuizzes(Array.isArray(data) ? data : [])
+      setLoading(false)
+    })
+  }, [])
 
   return (
     <div className="page-container">
@@ -24,28 +29,32 @@ export default async function QuizPage() {
           </Link>
         </div>
 
-        <div className="word-list">
-          {quizzes.length === 0 ? (
-            <div className="no-results">😕 Nog geen quizzen</div>
-          ) : (
-            quizzes.map((quiz) => (
-              <div key={quiz.id} className="word-card">
-                <div className="word-header">
-                  <h3 className="word-dutch">{quiz.title}</h3>
-                  <span className="quiz-count">{quiz.questions.length} vragen</span>
+        {loading ? (
+          <div className="loading">⏳ Laden...</div>
+        ) : (
+          <div className="word-list">
+            {quizzes.length === 0 ? (
+              <div className="no-results">😕 Nog geen quizzen</div>
+            ) : (
+              quizzes.map((quiz) => (
+                <div key={quiz.id} className="word-card">
+                  <div className="word-header">
+                    <h3 className="word-dutch">{quiz.title}</h3>
+                    <span className="quiz-count">{quiz.questions.length} vragen</span>
+                  </div>
+                  <div className="word-content">
+                    {quiz.description && (
+                      <p className="word-arabic">{quiz.description}</p>
+                    )}
+                    <Link href={`/quiz/${quiz.id}`} className="btn btn-primary" style={{ marginTop: '10px', display: 'inline-block' }}>
+                      🚀 Quiz starten
+                    </Link>
+                  </div>
                 </div>
-                <div className="word-content">
-                  {quiz.description && (
-                    <p className="word-arabic">{quiz.description}</p>
-                  )}
-                  <Link href={`/quiz/${quiz.id}`} className="btn btn-primary" style={{ marginTop: '10px', display: 'inline-block' }}>
-                    🚀 Quiz starten
-                  </Link>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
+              ))
+            )}
+          </div>
+        )}
       </div>
     </div>
   )

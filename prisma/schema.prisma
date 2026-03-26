@@ -7,60 +7,60 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Word {
-  id            String   @id @default(cuid())
-  dutch         String
-  arabicMeaning String
-  otherMeaning  String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  userId        String
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  sentences     Sentence[]
-
-  @@unique([dutch, userId])
-}
-
-model Sentence {
-  id        String   @id @default(cuid())
-  dutch     String
-  arabic    String
-  wordId    String?
-  word      Word?    @relation(fields: [wordId], references: [id], onDelete: Cascade)
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([dutch, userId])
-}
-
 model Quiz {
-  id          String   @id @default(cuid())
-  title       String
-  description String?
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
-  questions   QuizQuestion[]
+  id           String         @id
+  title        String
+  description  String?
+  createdAt    DateTime       @default(now())
+  userId       String         @default("default_user")
+  User         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  QuizQuestion QuizQuestion[]
 }
 
 model QuizQuestion {
-  id        String   @id @default(cuid())
+  id        String   @id
   quizId    String
-  quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
   question  String
   answer    String
   options   String[]
   createdAt DateTime @default(now())
+  Quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+}
+
+model Sentence {
+  id        String   @id
+  dutch     String
+  arabic    String
+  wordId    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  userId    String   @default("default_user")
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Word      Word?    @relation(fields: [wordId], references: [id], onDelete: Cascade)
+
+  @@unique([dutch, userId])
 }
 
 model User {
-  id        String     @id @default(cuid())
+  id        String     @id
   username  String     @unique
   password  String
   createdAt DateTime   @default(now())
-  words     Word[]
-  sentences Sentence[]
-  quizzes   Quiz[]
+  Quiz      Quiz[]
+  Sentence  Sentence[]
+  Word      Word[]
+}
+
+model Word {
+  id            String     @id
+  dutch         String     @unique
+  arabicMeaning String
+  otherMeaning  String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime
+  userId        String     @default("default_user")
+  Sentence      Sentence[]
+  User          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([dutch, userId])
 }
