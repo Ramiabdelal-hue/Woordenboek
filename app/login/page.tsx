@@ -98,9 +98,7 @@ export default function LoginPage() {
           <button type="submit" className="btn btn-primary" disabled={loading}>
             {loading ? '⏳ Even wachten...' : mode === 'login' ? '🔑 Inloggen' : '✅ Account aanmaken'}
           </button>
-          {mode === 'register' && (
-            <p className="login-footer">Rami Abdelal</p>
-          )}
+          <p className="login-footer">Rami Abdelal</p>
         </form>
       </div>
     </div>
